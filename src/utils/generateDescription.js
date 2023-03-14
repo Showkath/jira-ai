@@ -28,26 +28,40 @@ export const generateDescription = async ({
     prompt += "E a seguinte descrição ou template: ";
     prompt += descriptionFormatted;
 
-    const bodyInJSON = JSON.stringify({
-      n: 1,
-      max_tokens: 1000,
-      prompt,
-      temperature: 0.5,
-      top_p: 1,
-    });
+    //POST https://api.openai.com/v1/completions
+//POST https://api.openai.com/v1/completions/engines/text-davinci-003/completions
+const bodyInJSON = JSON.stringify({
+  n: 1,
+  max_tokens: 1000,
+  prompt,
+  temperature: 0.5,
+  top_p: 1,
+});
 
-    // @ts-ignore
-    const response = await api.fetch(
-      OpenAIUrl + "/engines/text-davinci-003/completions",
-      {
-        body: bodyInJSON,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${OpenAIApiKey}`,
-        },
-      }
-    );
+ 
+ //POST https://api.openai.com/v1/chat/completions
+/*
+const bodyInJSON = JSON.stringify({
+  n: 1,
+  model: 'gpt-3.5-turbo',
+  max_tokens: 5000,
+  prompt,
+  temperature: 0.5,
+  top_p: 1,
+});
+*/
+const response = await api.fetch(
+  OpenAIUrl + "/engines/text-davinci-003/completions",
+  //OpenAIUrl + "/chat/completions",
+  {
+    body: bodyInJSON,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OpenAIApiKey}`,
+    },
+  }
+);
 
     console.log(response);
 
